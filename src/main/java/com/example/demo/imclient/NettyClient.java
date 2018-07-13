@@ -23,7 +23,7 @@ public class NettyClient {
 	
 	public static void main(String[] args) {
 		String host = "127.0.0.1";
-        int port = 10000;
+        int port = 1000;
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         
         try {

@@ -28,7 +28,7 @@ public class NettyClient3Application {
 		SpringApplication.run(NettyClient3Application.class, args);
 
 		String host = "127.0.0.1";
-		int port = 10000;
+		int port = 1000;
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 
 		try {
