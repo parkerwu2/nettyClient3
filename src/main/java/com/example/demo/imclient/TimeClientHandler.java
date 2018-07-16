@@ -4,9 +4,11 @@ import com.example.demo.consts.Const;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoop;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class TimeClientHandler extends SimpleChannelInboundHandler<String> {
 	private ImConnection imConnection = new ImConnection();
 
@@ -31,7 +33,7 @@ public class TimeClientHandler extends SimpleChannelInboundHandler<String> {
 		eventLoop.schedule(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("尝试重连...");
+				log.info("尝试重连...");
 				imConnection.connect(Const.SERVER_URL, Const.SERVER_PORT);
 			}
 		}, 20L, TimeUnit.SECONDS);

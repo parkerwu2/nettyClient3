@@ -12,12 +12,14 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class NettyClient {
 
 	private static final StringDecoder DECODER = new StringDecoder();
@@ -142,7 +144,7 @@ public class NettyClient {
         // Read commands from the stdin.
         ChannelFuture lastWriteFuture = null;
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("开始交互");
+        log.info("开始交互...");
         for (; ; ) {
             try {
                 String line = in.readLine();
@@ -170,6 +172,6 @@ public class NettyClient {
         if (lastWriteFuture != null) {
             lastWriteFuture.sync();
         }
-        System.out.println("交互结束");
+        log.info("交互结束...");
     }
 }

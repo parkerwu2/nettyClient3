@@ -11,10 +11,12 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by jingzhi.wu on 2018/7/13.
  */
+@Slf4j
 public class ImConnection {
     private static final StringDecoder DECODER = new StringDecoder();
     private static final StringEncoder ENCODER = new StringEncoder();
@@ -50,7 +52,7 @@ public class ImConnection {
             });
 
             ChannelFuture f = b.connect(host, port);
-            System.out.println("重连结束");
+            log.info("重连结束...");
 //            f.addListener(new ConnectionListener());
 //            channel = f.channel();
             NettyClient.doSendAndReceive(f);
