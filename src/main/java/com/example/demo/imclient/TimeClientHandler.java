@@ -1,9 +1,14 @@
 package com.example.demo.imclient;
 
+import com.example.demo.consts.Const;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.EventLoop;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.util.concurrent.TimeUnit;
+
 public class TimeClientHandler extends SimpleChannelInboundHandler<String> {
+	private ImConnection imConnection = new ImConnection();
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
@@ -18,4 +23,19 @@ public class TimeClientHandler extends SimpleChannelInboundHandler<String> {
 		ctx.close();
 	}
 
+	@Override
+	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		System.err.println("掉线了...");
+		//使用过程中断线重连
+		final EventLoop eventLoop = ctx.channel().eventLoop();
+		eventLoop.schedule(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("尝试重连...");
+				imConnection.connect(Const.SERVER_URL, Const.SERVER_PORT);
+			}
+		}, 20L, TimeUnit.SECONDS);
+
+		super.channelInactive(ctx);
+	}
 }
