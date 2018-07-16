@@ -50,12 +50,19 @@ public class ImConnection {
 
                 }
             });
-
-            ChannelFuture f = b.connect(host, port);
-            log.info("重连结束...");
-//            f.addListener(new ConnectionListener());
-//            channel = f.channel();
-            NettyClient.doSendAndReceive(f);
+            boolean reconnectFlag = true;
+            do {
+                ChannelFuture f = b.connect(host, port);
+                log.info("重连结束...");
+                if (f.isSuccess()){
+                    log.info("重连成功...");
+                    reconnectFlag = false;
+                    NettyClient.doSendAndReceive(f);
+                } else {
+                    log.info("重连失败...休息3秒重试");
+                    Thread.currentThread().sleep(3000);
+                }
+            } while (reconnectFlag);
         } catch(Exception e) {
             e.printStackTrace();
         }
