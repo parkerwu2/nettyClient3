@@ -153,11 +153,16 @@ public class NettyClient {
 
     public static void doSendAndReceive(ChannelFuture f) throws IOException, InterruptedException {
         Request msg = new Request();
-        msg.setBody("ccc");
-        msg.setFrom("aaa");
-//        msg.setTo("to");
-//        msg.setType("1");
 
+        msg.setFrom("aaa");
+
+        IMMessage imMessage = new IMMessage();
+        imMessage.setBody("ccc");
+        imMessage.setFrom("aaa");
+        imMessage.setTo("to");
+        imMessage.setType("1");
+        String wrapperedBody = JSON.toJSONString(imMessage);
+        msg.setBody(wrapperedBody);
         // f.channel().writeAndFlush(msg);
         Channel ch = f.channel();
         //f.channel().writeAndFlush("hi ....");
